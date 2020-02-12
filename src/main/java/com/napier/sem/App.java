@@ -2,9 +2,13 @@ package com.napier.sem;
 
 import java.sql.*;
 
+import com.napier.sem.gui.Gui;
+
+
 public class App
 {
     private Connection  con = null;
+    private static final Gui gui = new Gui();
 
     public static void main(String[] args)
     {
@@ -20,6 +24,11 @@ public class App
         // Disconnect from database
         a.disconnect();
     }
+
+   public static Gui getGui()
+   {
+       return  gui;
+   }
 
     public void connect()
     {
@@ -130,4 +139,16 @@ public class App
                             + "Capital: " + cnt.capital + "\n");
         }
     }
+
+    /*public void CapitalCityreport()
+    {
+        try {
+
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed To Provide capital city report");
+            return null;
+        }
+    }*/
 }
