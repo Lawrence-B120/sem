@@ -14,8 +14,8 @@ public class App
         // Connect to database
         a.connect();
 
-        // Get Example Country
-        a.getCountry("ABW");
+        // Display Example Country
+        a.displayCountry(a.getCountry("ABW"));
 
         // Disconnect from database
         a.disconnect();
@@ -87,8 +87,9 @@ public class App
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT Code, Name, Continent, Region, Capital, Population "
-                            + "FROM country "
+                    "SELECT Code, country.Name, Continent, Region, city.Name, country.Population "
+                            + "FROM country JOIN city "
+                            + "ON country.Capital=city.ID "
                             + "WHERE Code = '" + ID + "'";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
@@ -98,11 +99,11 @@ public class App
             {
                 Country cnt = new Country();
                 cnt.code = rset.getString("Code");
-                cnt.name = rset.getString("Name");
+                cnt.name = rset.getString("country.Name");
                 cnt.continent = rset.getString("Continent");
                 cnt.region = rset.getString("Region");
-                cnt.capital = rset.getInt("Capital");
-                cnt.population = rset.getInt("Population");
+                cnt.capital = rset.getString("city.Name");
+                cnt.population = rset.getInt("country.Population");
                 return cnt;
             }
             else
@@ -113,6 +114,20 @@ public class App
             System.out.println(e.getMessage());
             System.out.println("Failed to get country details");
             return null;
+        }
+    }
+
+    public void displayCountry(Country cnt)
+    {
+        if (cnt != null)
+        {
+            System.out.println(
+                    cnt.code + " "
+                            + cnt.name + "\n"
+                            + "Continent: " + cnt.continent + "\n"
+                            + "Region: " + cnt.region + "\n"
+                            + "Population: " + cnt.population + "\n"
+                            + "Capital: " + cnt.capital + "\n");
         }
     }
 }
