@@ -3,6 +3,7 @@ package com.napier.sem;
 import java.sql.*;
 
 import com.napier.sem.gui.Gui;
+import com.napier.sem.gui.GuiListener;
 
 
 public class App
@@ -23,6 +24,8 @@ public class App
 
         // Disconnect from database
         a.disconnect();
+
+        new GuiListener();
     }
 
    public static Gui getGui()
@@ -140,15 +143,4 @@ public class App
         }
     }
 
-    /*public void CapitalCityreport()
-    {
-        try {
-
-        } catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-            System.out.println("Failed To Provide capital city report");
-            return null;
-        }
-    }*/
 }
