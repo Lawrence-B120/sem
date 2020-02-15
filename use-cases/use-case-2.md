@@ -39,5 +39,5 @@ A request for population information is sent to the user
 
 ## EXTENSIONS
 
-2. **City does not exist:**
+3. **City does not exist:**
     1. User informs requester that city given does not exist in database.

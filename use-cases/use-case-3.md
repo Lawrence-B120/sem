@@ -39,5 +39,5 @@ A request for population information is sent to the user
 
 ## EXTENSIONS
 
-2. **Country does not exist:**
+3. **Country does not exist:**
     1. User informs requester that country given does not exist in database.
