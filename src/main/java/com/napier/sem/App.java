@@ -17,6 +17,9 @@ public class App
         // Display Example Country
         a.displayCountry(a.getCountry("ABW"));
 
+        //display example capital city report
+        a.displayCapitalCityReport(a.getCity("GBR"));
+
         // Disconnect from database
         a.disconnect();
     }
@@ -41,7 +44,7 @@ public class App
             try
             {
                 // Wait a bit for db to start
-                Thread.sleep(30000);
+                Thread.sleep(1000);
                 // Connect to database
                 con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
                 System.out.println("Successfully connected");
@@ -117,6 +120,43 @@ public class App
         }
     }
 
+    public CapitalCity getCity(String ID)
+    {
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT city.ID, city.Name, CountryCode, District, city.Population, country.Capital "
+                            + "FROM city JOIN country "
+                            + "ON country.Capital=city.ID "
+                            + "WHERE Code = '" + ID + "'";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Return new employee if valid.
+            // Check one is returned
+            if (rset.next())
+            {
+                CapitalCity cptc = new CapitalCity();
+                //cptc.id = rset.getString("ID");
+                cptc.name = rset.getString("city.Name");
+                cptc.country = rset.getString("CountryCode");
+                cptc.district = rset.getString("District");
+                cptc.population = rset.getInt("city.Population");
+                return cptc;
+            }
+            else
+                return null;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details");
+            return null;
+        }
+    }
+
     public void displayCountry(Country cnt)
     {
         if (cnt != null)
@@ -128,6 +168,19 @@ public class App
                             + "Region: " + cnt.region + "\n"
                             + "Population: " + cnt.population + "\n"
                             + "Capital: " + cnt.capital + "\n");
+        }
+    }
+
+    public void displayCapitalCityReport(CapitalCity cptc)
+    {
+        if(cptc != null)
+        {
+            System.out.println(
+                    //cptc.code + " "
+                            "Capital City " + cptc.name + "\n"
+                            + "Country Code " + cptc.country + "\n"
+                            +  "Capital Population " + cptc.population + "\n"
+            );
         }
     }
 }
