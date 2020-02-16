@@ -1,4 +1,4 @@
-# USE CASE: 3 Produce a Report on the details of a Capital-City
+# USE CASE: 3 Produce a Report on the Details of a Capital-City
 
 ## CHARACTERISTIC INFORMATION
 
@@ -12,7 +12,7 @@ Company
 
 ### Preconditions
 
-We know the capital-city's country. Database contains city data.
+We know the capital-city's country. Database contains city and country data.
 
 ### Success End Condition
 

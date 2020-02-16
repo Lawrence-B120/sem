@@ -1,4 +1,4 @@
-# USE CASE: 2 Produce a Report on the details of a City
+# USE CASE: 2 Produce a Report on the Details of a City
 
 ## CHARACTERISTIC INFORMATION
 
@@ -33,7 +33,7 @@ A request for population information is sent to the user
 ## MAIN SUCCESS SCENARIO
 
 1. Request is made for information of city
-2. User enters ID of country for desired city.
+2. User enters ID of city.
 3. User extracts information of the specific city.
 4. User provides report to requester.
 
