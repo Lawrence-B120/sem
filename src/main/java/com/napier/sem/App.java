@@ -31,7 +31,9 @@ public class App
         //display example capital city report
         a.displayCapitalCityReport(a.getCity("GBR"));
 
-        //areaType = AreaType.Country;
+        //Display country population report
+        areaType = AreaType.Country;
+        a.displayPopulation(a.getPopulation(areaType));
 
         // Disconnect from database
         a.disconnect();
@@ -172,7 +174,7 @@ public class App
     }
 
     //Get the details of a country from the database
-    public Population getPopulation(AreaType areaTpe)
+    public Population getPopulation(AreaType areaType)
     {
         try
         {
@@ -180,10 +182,12 @@ public class App
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT country.Name, country.Population AS TotalPop, SUM(city.Population) AS CityPop "
+                    "SELECT country.Name AS Name, country.Population AS TotalPop, "
+                            + "SUM(city.Population) AS CityPop, (SUM(city.Population)/country.Population)*100 AS CityPercent, "
+                            + "country.Population - SUM(city.Population) AS NonCityPop, ((country.Population - SUM(city.Population))/country.Population)*100 AS NonCityPercent "
                             + "FROM country JOIN city ON country.Code = city.CountryCode "
-                            + "GROUP BY country.Name, TotalPop "
-                            + "ORDER BY country.Name ";
+                            + "GROUP BY `Name`, TotalPop "
+                            + "ORDER BY `Name` ";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
@@ -191,12 +195,12 @@ public class App
             if (rset.next())
             {
                 Population pop = new Population();
-                pop.name = rset.getString("country.Name");
+                pop.name = rset.getString("Name");
                 pop.totalPop = rset.getInt("TotalPop");
                 pop.cityPop = rset.getInt("CityPop");
-                pop.nonCityPop = rset.getInt("CityPop");
-                pop.cityPercent = rset.getInt("CityPop");
-                pop.nonCityPercent = rset.getInt("CityPop");
+                pop.nonCityPop = rset.getInt("NonCityPop");
+                pop.cityPercent = rset.getFloat("CityPercent");
+                pop.nonCityPercent = rset.getFloat("NonCityPercent");
                 return pop;
             }
             else
