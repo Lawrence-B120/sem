@@ -4,10 +4,21 @@ import java.sql.*;
 
 public class App
 {
+    private enum AreaType{
+        World,
+        Continent,
+        Region,
+        Country,
+        District
+    }
+
     private Connection  con = null;
 
     public static void main(String[] args)
     {
+        //Enum for functions requiring an area type
+        AreaType areaType;
+
         // Create new Application
         App a = new App();
 
@@ -19,6 +30,8 @@ public class App
 
         //display example capital city report
         a.displayCapitalCityReport(a.getCity("GBR"));
+
+        //areaType = AreaType.Country;
 
         // Disconnect from database
         a.disconnect();
@@ -158,6 +171,45 @@ public class App
         }
     }
 
+    //Get the details of a country from the database
+    public Population getPopulation(AreaType areaTpe)
+    {
+        try
+        {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT country.Name, country.Population AS TotalPop, SUM(city.Population) AS CityPop "
+                            + "FROM country JOIN city ON country.Code = city.CountryCode "
+                            + "GROUP BY country.Name, TotalPop "
+                            + "ORDER BY country.Name ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Return new employee if valid.
+            // Check one is returned
+            if (rset.next())
+            {
+                Population pop = new Population();
+                pop.name = rset.getString("country.Name");
+                pop.totalPop = rset.getInt("TotalPop");
+                pop.cityPop = rset.getInt("CityPop");
+                pop.nonCityPop = rset.getInt("CityPop");
+                pop.cityPercent = rset.getInt("CityPop");
+                pop.nonCityPercent = rset.getInt("CityPop");
+                return pop;
+            }
+            else
+                return null;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get country details");
+            return null;
+        }
+    }
+
     //Displays details of a given Country object to terminal
     public void displayCountry(Country cnt)
     {
@@ -183,6 +235,19 @@ public class App
                             "Capital City " + cptc.name + "\n"
                             + "Country Code " + cptc.country + "\n"
                             +  "Capital Population " + cptc.population + "\n"
+            );
+        }
+    }
+
+    public void displayPopulation(Population pop)
+    {
+        if (pop != null)
+        {
+            System.out.println(
+                    pop.name + "\n"
+                            + "Total Population: " + pop.totalPop + "\n"
+                            + "City Population: " + pop.cityPop + " (" + pop.cityPercent + "%)" + "\n"
+                            + "Non-City Population: " + pop.nonCityPop + " (" + pop.nonCityPercent + "%)" + "\n"
             );
         }
     }
