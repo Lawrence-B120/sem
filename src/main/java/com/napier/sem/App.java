@@ -120,6 +120,7 @@ public class App
         }
     }
 
+    //Get Capital City from Database
     public CapitalCity getCity(String ID)
     {
         try
@@ -157,6 +158,7 @@ public class App
         }
     }
 
+    //Displays details of a given Country object to terminal
     public void displayCountry(Country cnt)
     {
         if (cnt != null)
@@ -171,6 +173,7 @@ public class App
         }
     }
 
+    //Displays details of a given CapitalCity object to terminal
     public void displayCapitalCityReport(CapitalCity cptc)
     {
         if(cptc != null)
