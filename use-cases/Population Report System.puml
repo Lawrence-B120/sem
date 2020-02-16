@@ -1,0 +1,204 @@
+@startuml
+
+actor User
+rectangle Database
+
+rectangle "Population Report System"{
+    usecase UC1 as "Get Country"
+    usecase UC1a as "Print Details"
+
+    User - UC1
+    UC1 ..> UC1a : include
+    UC1 - Database
+
+    usecase UC2 as "Get City"
+    usecase UC2a as "Print Details"
+
+    User - UC2
+    UC2 ..> UC2a : include
+    UC2 - Database
+
+    usecase UC3 as "Get Capital-City"
+    usecase UC3a as "Print Details"
+
+    User - UC3
+    UC3 ..> UC3a : include
+    UC3 - Database
+
+    usecase UC4 as "Get Separate Area population"
+    usecase UC4a as "Print Details"
+
+    User - UC4
+    UC4 ..> UC4a : include
+    UC4 - Database
+
+    usecase UC5 as "Get Area population"
+        usecase UC5a as "Print Details"
+
+        User - UC5
+        UC5 ..> UC5a : include
+        UC5 - Database
+
+    usecase UC6 as "Get Language population"
+        usecase UC6a as "Print Details"
+
+        User - UC6
+        UC6 ..> UC6a : include
+        UC6 - Database
+
+    usecase UC7 as "Get All Countries"
+        usecase UC7a as "Print Details"
+
+        User - UC7
+        UC7 ..> UC7a : include
+        UC7 - Database
+
+    usecase UC8 as "Get All Countries in Continent"
+        usecase UC8a as "Print Details"
+
+        User - UC8
+        UC8 ..> UC8a : include
+        UC8 - Database
+
+    usecase UC9 as "Get All Countries in Region"
+        usecase UC9a as "Print Details"
+
+        User - UC9
+        UC9 ..> UC9a : include
+        UC9 - Database
+
+    usecase UC10 as "Get Top N Countries"
+        usecase UC10a as "Print Details"
+
+        User - UC10
+        UC10 ..> UC10a : include
+        UC10 - Database
+
+    usecase UC11 as "Get Top N Countries in Continent"
+        usecase UC11a as "Print Details"
+
+        User - UC11
+        UC11 ..> UC11a : include
+        UC11 - Database
+
+    usecase UC12 as "Get Top N Countries in Region"
+        usecase UC12a as "Print Details"
+
+        User - UC12
+        UC12 ..> UC12a : include
+        UC12 - Database
+
+    usecase UC13 as "Get All Cities"
+        usecase UC13a as "Print Details"
+
+        User - UC13
+        UC13 ..> UC13a : include
+        UC13 - Database
+
+    usecase UC14 as "Get All Cities in Continent"
+        usecase UC14a as "Print Details"
+
+        User - UC14
+        UC14 ..> UC14a : include
+        UC14 - Database
+
+    usecase UC15 as "Get All Cities in Region"
+        usecase UC15a as "Print Details"
+
+        User - UC15
+        UC15 ..> UC15a : include
+        UC15 - Database
+
+    usecase UC16 as "Get All Cities in Country"
+        usecase UC16a as "Print Details"
+
+        User - UC16
+        UC16 ..> UC16a : include
+        UC16 - Database
+
+    usecase UC17 as "Get All Cities in District"
+        usecase UC17a as "Print Details"
+
+        User - UC17
+        UC17 ..> UC17a : include
+        UC17 - Database
+
+    usecase UC18 as "Get Top N Cities"
+        usecase UC18a as "Print Details"
+
+        User - UC18
+        UC18 ..> UC18a : include
+        UC18 - Database
+
+    usecase UC19 as "Get Top N Cities in Continent"
+        usecase UC19a as "Print Details"
+
+        User - UC19
+        UC19 ..> UC19a : include
+        UC19 - Database
+
+    usecase UC20 as "Get Top N Cities in Region"
+        usecase UC20a as "Print Details"
+
+        User - UC20
+        UC20 ..> UC20a : include
+        UC20 - Database
+
+    usecase UC21 as "Get Top N Cities in Country"
+        usecase UC21a as "Print Details"
+
+        User - UC21
+        UC21 ..> UC21a : include
+        UC21 - Database
+
+    usecase UC22 as "Get Top N Cities in District"
+        usecase UC22a as "Print Details"
+
+        User - UC22
+        UC22 ..> UC22a : include
+        UC22 - Database
+
+    usecase UC23 as "Get All Capital-Cities"
+        usecase UC23a as "Print Details"
+
+        User - UC23
+        UC23 ..> UC23a : include
+        UC23 - Database
+
+    usecase UC24 as "Get All Capital-Cities in Continent"
+        usecase UC24a as "Print Details"
+
+        User - UC24
+        UC24 ..> UC24a : include
+        UC24 - Database
+
+    usecase UC25 as "Get All Capital-Cities in Region"
+        usecase UC25a as "Print Details"
+
+        User - UC25
+        UC25 ..> UC25a : include
+        UC25 - Database
+
+    usecase UC26 as "Get Top N Capital-Cities"
+        usecase UC26a as "Print Details"
+
+        User - UC26
+        UC26 ..> UC26a : include
+        UC26 - Database
+
+    usecase UC27 as "Get Top N Capital-Cities in Continent"
+        usecase UC27a as "Print Details"
+
+        User - UC27
+        UC27 ..> UC27a : include
+        UC27 - Database
+
+    usecase UC28 as "Get Top N Capital-Cities in Region"
+        usecase UC28a as "Print Details"
+
+        User - UC28
+        UC28 ..> UC28a : include
+        UC28 - Database
+}
+
+@enduml
