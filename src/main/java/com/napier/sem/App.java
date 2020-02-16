@@ -2,9 +2,8 @@ package com.napier.sem;
 
 import java.sql.*;
 
-public class App
-{
-    private enum AreaType{
+public class App {
+    private enum AreaType {
         World,
         Continent,
         Region,
@@ -12,10 +11,9 @@ public class App
         District
     }
 
-    private Connection  con = null;
+    private Connection con = null;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         //Enum for functions requiring an area type
         AreaType areaType;
 
@@ -39,39 +37,29 @@ public class App
         a.disconnect();
     }
 
-    public void connect()
-    {
-        try
-        {
+    public void connect() {
+        try {
             // Load Database driver
             Class.forName("com.mysql.jdbc.Driver");
-        }
-        catch (ClassNotFoundException e)
-        {
+        } catch (ClassNotFoundException e) {
             System.out.println("Could not load SQL driver");
             System.exit(-1);
         }
 
         int retries = 10;
-        for (int i = 0; i < retries; ++i)
-        {
+        for (int i = 0; i < retries; ++i) {
             System.out.println("Connecting to database...");
-            try
-            {
+            try {
                 // Wait a bit for db to start
                 Thread.sleep(30000);
                 // Connect to database
                 con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
                 System.out.println("Successfully connected");
                 break;
-            }
-            catch (SQLException sqle)
-            {
+            } catch (SQLException sqle) {
                 System.out.println("Failed to connect to database attempt " + Integer.toString(i));
                 System.out.println(sqle.getMessage());
-            }
-            catch (InterruptedException ie)
-            {
+            } catch (InterruptedException ie) {
                 System.out.println("Thread interrupted? Should not happen.");
             }
         }
@@ -80,27 +68,20 @@ public class App
     /**
      * Disconnect from the MySQL database.
      */
-    public void disconnect()
-    {
-        if (con != null)
-        {
-            try
-            {
+    public void disconnect() {
+        if (con != null) {
+            try {
                 // Close connection
                 con.close();
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 System.out.println("Error closing connection to database");
             }
         }
     }
 
     //Get the details of a country from the database
-    public Country getCountry(String ID)
-    {
-        try
-        {
+    public Country getCountry(String ID) {
+        try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
@@ -113,8 +94,7 @@ public class App
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
             // Check one is returned
-            if (rset.next())
-            {
+            if (rset.next()) {
                 Country cnt = new Country();
                 cnt.code = rset.getString("Code");
                 cnt.name = rset.getString("country.Name");
@@ -123,12 +103,9 @@ public class App
                 cnt.capital = rset.getString("city.Name");
                 cnt.population = rset.getInt("country.Population");
                 return cnt;
-            }
-            else
+            } else
                 return null;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get country details");
             return null;
@@ -136,10 +113,8 @@ public class App
     }
 
     //Get Capital City from Database
-    public CapitalCity getCity(String ID)
-    {
-        try
-        {
+    public CapitalCity getCity(String ID) {
+        try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
@@ -152,8 +127,7 @@ public class App
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
             // Check one is returned
-            if (rset.next())
-            {
+            if (rset.next()) {
                 CapitalCity cptc = new CapitalCity();
                 //cptc.id = rset.getString("ID");
                 cptc.name = rset.getString("city.Name");
@@ -161,12 +135,9 @@ public class App
                 cptc.district = rset.getString("District");
                 cptc.population = rset.getInt("city.Population");
                 return cptc;
-            }
-            else
+            } else
                 return null;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get city details");
             return null;
@@ -181,13 +152,27 @@ public class App
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
-            String strSelect =
-                    "SELECT country.Name AS Name, country.Population AS TotalPop, "
-                            + "SUM(city.Population) AS CityPop, (SUM(city.Population)/country.Population)*100 AS CityPercent, "
-                            + "country.Population - SUM(city.Population) AS NonCityPop, ((country.Population - SUM(city.Population))/country.Population)*100 AS NonCityPercent "
-                            + "FROM country JOIN city ON country.Code = city.CountryCode "
-                            + "GROUP BY `Name`, TotalPop "
-                            + "ORDER BY `Name` ";
+            String strSelect = "";
+            if (areaType == AreaType.Country)
+            {
+                strSelect =
+                        "SELECT co.Name AS Name, SUM(DISTINCT co.Population) AS TotalPop, "
+                                + "SUM(ci.Population) AS CityPop, (SUM(ci.Population)/SUM(DISTINCT co.Population))*100 AS CityPercent, "
+                                + "SUM(DISTINCT co.Population) - SUM(ci.Population) AS NonCityPop, ((SUM(DISTINCT co.Population) - SUM(ci.Population))/SUM(DISTINCT co.Population))*100 AS NonCityPercent "
+                                + "FROM country co JOIN city ci ON co.Code = ci.CountryCode "
+                                + "GROUP BY `Name` "
+                                + "ORDER BY `Name` ";
+            }
+            else
+            {
+                strSelect =
+                        "SELECT co." + areaType.toString() + " AS Name, SUM(DISTINCT co.Population) AS TotalPop, "
+                                + "SUM(ci.Population) AS CityPop, (SUM(ci.Population)/SUM(DISTINCT co.Population))*100 AS CityPercent, "
+                                + "SUM(DISTINCT co.Population) - SUM(ci.Population) AS NonCityPop, ((SUM(DISTINCT co.Population) - SUM(ci.Population))/SUM(DISTINCT co.Population))*100 AS NonCityPercent "
+                                + "FROM country co JOIN city ci ON co.Code = ci.CountryCode "
+                                + "GROUP BY `Name` "
+                                + "ORDER BY `Name` ";
+            }
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
@@ -196,9 +181,9 @@ public class App
             {
                 Population pop = new Population();
                 pop.name = rset.getString("Name");
-                pop.totalPop = rset.getInt("TotalPop");
-                pop.cityPop = rset.getInt("CityPop");
-                pop.nonCityPop = rset.getInt("NonCityPop");
+                pop.totalPop = rset.getString("TotalPop");
+                pop.cityPop = rset.getString("CityPop");
+                pop.nonCityPop = rset.getString("NonCityPop");
                 pop.cityPercent = rset.getFloat("CityPercent");
                 pop.nonCityPercent = rset.getFloat("NonCityPercent");
                 return pop;
