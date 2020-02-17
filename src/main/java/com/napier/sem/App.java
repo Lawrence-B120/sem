@@ -1,6 +1,9 @@
 package com.napier.sem;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 public class App {
     private enum AreaType {
@@ -30,8 +33,8 @@ public class App {
         a.displayCapitalCityReport(a.getCity("GBR"));
 
         //Display country population report
-        areaType = AreaType.Country;
-        a.displayPopulation(a.getPopulation(areaType));
+        //areaType = AreaType.Continent;
+        //a.displayPopulation(a.getPopulation(areaType));
 
         // Disconnect from database
         a.disconnect();
@@ -145,7 +148,7 @@ public class App {
     }
 
     //Get the details of a country from the database
-    public Population getPopulation(AreaType areaType)
+    public List<Population> getPopulation(AreaType areaType)
     {
         try
         {
@@ -177,16 +180,21 @@ public class App {
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
             // Check one is returned
+            List<Population> popList = new LinkedList<Population>();
             if (rset.next())
             {
-                Population pop = new Population();
-                pop.name = rset.getString("Name");
-                pop.totalPop = rset.getString("TotalPop");
-                pop.cityPop = rset.getString("CityPop");
-                pop.nonCityPop = rset.getString("NonCityPop");
-                pop.cityPercent = rset.getFloat("CityPercent");
-                pop.nonCityPercent = rset.getFloat("NonCityPercent");
-                return pop;
+                do {
+                    Population pop = new Population();
+                    pop.name = rset.getString("Name");
+                    pop.totalPop = rset.getString("TotalPop");
+                    pop.cityPop = rset.getString("CityPop");
+                    pop.nonCityPop = rset.getString("NonCityPop");
+                    pop.cityPercent = rset.getFloat("CityPercent");
+                    pop.nonCityPercent = rset.getFloat("NonCityPercent");
+                    popList.add(pop);
+                }
+                while (rset.next());
+                return popList;
             }
             else
                 return null;
@@ -228,16 +236,18 @@ public class App {
         }
     }
 
-    public void displayPopulation(Population pop)
+    public void displayPopulation(List<Population> popList)
     {
-        if (pop != null)
+        if (popList != null)
         {
-            System.out.println(
-                    pop.name + "\n"
-                            + "Total Population: " + pop.totalPop + "\n"
-                            + "City Population: " + pop.cityPop + " (" + pop.cityPercent + "%)" + "\n"
-                            + "Non-City Population: " + pop.nonCityPop + " (" + pop.nonCityPercent + "%)" + "\n"
-            );
+            StringBuilder printString = new StringBuilder();
+            for (Population pop : popList) {
+                printString.append(pop.name).append("\n")
+                        .append("Total Population: ").append(pop.totalPop).append("\n")
+                        .append("City Population: ").append(pop.cityPop).append(" (").append(pop.cityPercent).append("%)").append("\n")
+                        .append("Non-City Population: ").append(pop.nonCityPop).append(" (").append(pop.nonCityPercent).append("%)").append("\n\n");
+            }
+            System.out.println(printString);
         }
     }
 }
