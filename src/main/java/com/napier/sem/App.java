@@ -311,7 +311,8 @@ public class App {
                 ResultSet rset = stmt.executeQuery(stringSelect[i]);
                 // Check one is returned
                 if (rset.next()) {
-                    popcl.add(popc.SetWorldPop(rset.getString("pop")));
+                    popc.SetWorldPop(rset.getString("pop"));
+                    popcl.add(popc);
                 } else
                     return null;
             }
