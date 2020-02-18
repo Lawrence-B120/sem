@@ -1,18 +1,22 @@
 package com.napier.sem;
 
 public class PopulationCategories {
-    private String code;
-    private String worldPop, test1, test2;
+    private String worldPop;
+    private int areaTypeCount;
 
     public String GetWorldPop()
     {
         return worldPop;
-        //test comment
     }
 
-    public String GetCountryCode()
+    public int GetCount()
     {
-        return code;
+        return areaTypeCount;
+    }
+
+    public void SetCount(int i)
+    {
+        areaTypeCount = i;
     }
 
     public void SetWorldPop(String n)
@@ -20,8 +24,4 @@ public class PopulationCategories {
         worldPop = n;
     }
 
-    public String Tiddies(String tits)
-    {
-        return tits;
-    }
 }
