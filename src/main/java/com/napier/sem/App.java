@@ -42,6 +42,9 @@ public class App {
         //Display language report
         a.displayLanguage(a.getLanguage());
 
+        //Display Popultaion fo world
+        a.displayPopWorld(a.getPopulations("USA"));
+
         // Disconnect from database
         a.disconnect();
     }
@@ -283,6 +286,63 @@ public class App {
             System.out.println(e.getMessage());
             System.out.println("Failed to get language details");
             return null;
+        }
+    }
+
+    public List<PopulationCategories> getPopulations(String code)
+    {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String stringSelect[] = new String[3];
+            stringSelect[0] =
+                    "SELECT SUM(Population) as pop FROM country ";
+                    //"SELECT Population, COUNT(Population) AS pop, Code "
+                            //+"FROM country ";
+                           // +"GROUP BY Population, Code "
+                            //+"UNION ALL "
+                            //+"SELECT 'SUM' Population, COUNT(Population) "
+                            //+"FROM country ";
+                            //+"GROUP BY Population";
+
+            stringSelect[1] =
+                    "SELECT SUM(Population) as pop FROM country "
+                    + "HAVING Count(" + AreaType.Continent + ") > 1";
+            // Execute SQL statement
+            List<PopulationCategories> popcl = new LinkedList<>();
+            PopulationCategories popc = new PopulationCategories();
+            for(int i = 0; i < 2; i++)
+            {
+                ResultSet rset = stmt.executeQuery(stringSelect[i]);
+                // Check one is returned
+                if (rset.next()) {
+                    popcl.add(popc.SetWorldPop(rset.getString("pop")));
+                } else
+                    return null;
+            }
+            return popcl;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get 1 or more Populations");
+            return null;
+        }
+    }
+
+    public void displayPopWorld(List<PopulationCategories> popList)
+    {
+
+        if (popList != null)
+        {
+            System.out.println("_Populations_\n");
+
+            for(int i = 0; i < popList.size(); i++)
+            {
+                System.out.println(
+                "Population of the World: " + popList.get(i) + "\n");
+                //+ "Capital: " + cnt.capital + "\n");
+            }
+
         }
     }
 
