@@ -19,4 +19,9 @@ public class PopulationCategories {
     {
         worldPop = n;
     }
+
+    public String Tiddies(String tits)
+    {
+        return tits;
+    }
 }
