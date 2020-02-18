@@ -11,15 +11,13 @@ public class App {
         Continent,
         Region,
         Country,
-        District
+        District,
+        City
     }
 
     private Connection con = null;
 
     public static void main(String[] args) {
-        //Enum for functions requiring an area type
-        AreaType areaType;
-
         // Create new Application
         App a = new App();
 
@@ -36,15 +34,19 @@ public class App {
         a.displayCapitalCityReport(a.getCapitalCity("GBR"));
 
         //Display country population report
-        //areaType = AreaType.Continent;
         //a.displayPopulation(a.getPopulation(areaType));
 
         //Display language report
         a.displayLanguage(a.getLanguage());
 
-        //Display Popultaion fo world
-        a.displayPopWorld(a.getPopulations("USA"));
-
+        //Display Population fo world
+        System.out.println("_Simple Populations_\n");
+        a.displayPopWorld(a.getPopulations(AreaType.World,""), "");
+        a.displayPopWorld(a.getPopulations(AreaType.Continent,"Asia"), "Asia");
+        a.displayPopWorld(a.getPopulations(AreaType.Region, "Australia and New Zealand"), "Australia and New Zealand");
+        a.displayPopWorld(a.getPopulations(AreaType.Country, "France"), "France");
+        a.displayPopWorld(a.getPopulations(AreaType.District, "Chaco"), "Chaco");
+        a.displayPopWorld(a.getPopulations(AreaType.City, "Edinburgh"), "Edinburgh");
         // Disconnect from database
         a.disconnect();
     }
@@ -283,40 +285,72 @@ public class App {
         }
     }
 
-    public List<PopulationCategories> getPopulations(String code)
+    public PopulationCategories getPopulations(AreaType areaType, String name)
     {
+        PopulationCategories popc = new PopulationCategories();
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
             // Create string for SQL statement
-            String stringSelect[] = new String[3];
-            stringSelect[0] =
-                    "SELECT SUM(Population) as pop FROM country ";
-                    //"SELECT Population, COUNT(Population) AS pop, Code "
-                            //+"FROM country ";
-                           // +"GROUP BY Population, Code "
-                            //+"UNION ALL "
-                            //+"SELECT 'SUM' Population, COUNT(Population) "
-                            //+"FROM country ";
-                            //+"GROUP BY Population";
-
-            stringSelect[1] =
-                    "SELECT SUM(Population) as pop FROM country "
-                    + "HAVING Count(" + AreaType.Continent + ") > 1";
-            // Execute SQL statement
-            List<PopulationCategories> popcl = new LinkedList<>();
-            PopulationCategories popc = new PopulationCategories();
-            for(int i = 0; i < 2; i++)
+            String stringSelect = "";
+            if(areaType == AreaType.World)
             {
-                ResultSet rset = stmt.executeQuery(stringSelect[i]);
-                // Check one is returned
-                if (rset.next()) {
-                    popc.SetWorldPop(rset.getString("pop"));
-                    popcl.add(popc);
-                } else
-                    return null;
+                stringSelect =
+                        "SELECT SUM(Population) as pop FROM country ";
+                popc.SetCount(0);
+            } else if(areaType == AreaType.Continent)
+            {
+                stringSelect =
+                "SELECT SUM(Population) as pop FROM country "
+                + "WHERE Continent = '" + name + "'";
+                popc.SetCount(1);
+            } else if(areaType == AreaType.Region)
+            {
+                stringSelect =
+                        "SELECT SUM(Population) as pop FROM country "
+                                + "WHERE Region = '" + name + "'";
+                popc.SetCount(2);
+            } else if(areaType == AreaType.Country)
+            {
+                stringSelect =
+                        "SELECT SUM(Population) as pop FROM country "
+                                + "WHERE Name = '" + name + "'";
+                popc.SetCount(3);
+            } else if(areaType == AreaType.District)
+            {
+                stringSelect =
+                        "SELECT Population as pop FROM city "
+                                + "WHERE District = '" + name + "'";
+                popc.SetCount(4);
+            } else if(areaType == AreaType.City)
+            {
+                stringSelect =
+                        "SELECT Population as pop FROM city "
+                                + "WHERE Name = '" + name + "'";
+                popc.SetCount(5);
             }
-            return popcl;
+    /*
+            //"SELECT Population, COUNT(Population) AS pop, Code "
+            //+"FROM country ";
+            // +"GROUP BY Population, Code "
+            //+"UNION ALL "
+            //+"SELECT 'SUM' Population, COUNT(Population) "
+            //+"FROM country ";
+            //+"GROUP BY Population";
+
+                    //"SELECT SUM(Population) as pop FROM country "
+                            //+ "WHERE " + AreaType.Continent + " = 'Europe'";
+                            */
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(stringSelect);
+            // Check one is returned
+            if (rset.next())
+            {
+                popc.SetWorldPop(rset.getString("pop"));
+                return popc;
+            }
+            else
+                return null;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             System.out.println("Failed to get 1 or more Populations");
@@ -324,20 +358,22 @@ public class App {
         }
     }
 
-    public void displayPopWorld(List<PopulationCategories> popList)
+    public void displayPopWorld(PopulationCategories popc, String name)
     {
-
-        if (popList != null)
+        String[] text = new String[10];
+        text[0] = "Population of the world: ";
+        text[1] = "Population of the Continent of " + name + ": ";
+        text[2] = "Population of the Region of " + name + ": ";
+        text[3] = "Population of the Country of " + name + ": ";
+        text[4] = "Population of the District of " + name + ": ";
+        text[5] = "Population of the City of " + name + ": ";
+        if (popc != null)
         {
-            System.out.println("_Populations_\n");
+            //System.out.println("_Simple Populations_\n");
 
-            for(int i = 0; i < popList.size(); i++)
-            {
                 System.out.println(
-                "Population of the World: " + popList.get(i) + "\n");
+                text[popc.GetCount()] + popc.GetWorldPop() + "\n");
                 //+ "Capital: " + cnt.capital + "\n");
-            }
-
         }
     }
 
