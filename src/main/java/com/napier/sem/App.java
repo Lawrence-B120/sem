@@ -39,7 +39,8 @@ public class App {
         //areaType = AreaType.Continent;
         //a.displayPopulation(a.getPopulation(areaType));
 
-        a.getLanguage();
+        //Display language report
+        a.displayLanguage(a.getLanguage());
 
         // Disconnect from database
         a.disconnect();
@@ -62,7 +63,7 @@ public class App {
                 Thread.sleep(30000);
                 // Connect to database
                 con = DriverManager.getConnection("jdbc:mysql://db:3306/world?useSSL=false", "root", "example");
-                System.out.println("Successfully connected");
+                System.out.println("Successfully connected\n");
                 break;
             } catch (SQLException sqle) {
                 System.out.println("Failed to connect to database attempt " + i);
@@ -264,12 +265,11 @@ public class App {
             if (rset.next())
             {
                 do {
-                    System.out.println(rset.getString("Name") + ", " + rset.getInt("Population") + ", " + rset.getString("Percentage"));
-                    //Language lang = new Language();
-                    //lang.name = rset.getString("Name");
-                    //lang.population = rset.getInt("Population");
-                    //lang.percentage = rset.getFloat("Percentage");
-                    //langList.add(lang);
+                    Language lang = new Language();
+                    lang.name = rset.getString("Name");
+                    lang.population = rset.getInt("Population");
+                    lang.percentage = rset.getFloat("Percentage");
+                    langList.add(lang);
                 }
                 while (rset.next());
                 return langList;
