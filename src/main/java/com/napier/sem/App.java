@@ -255,8 +255,9 @@ public class App {
                             + "(SUM((country.Population * countrylanguage.Percentage)/100)/(SELECT SUM(Population) FROM country))*100 AS Percentage "
                             + "FROM countrylanguage JOIN country "
                             + "ON countrylanguage.CountryCode=country.Code "
+                            + "WHERE countrylanguage.Language = 'Chinese' OR countrylanguage.Language = 'English' OR countrylanguage.Language = 'Hindi' OR countrylanguage.Language = 'Spanish' OR countrylanguage.Language = 'Arabic' "
                             + "GROUP BY countrylanguage.Language "
-                            + "ORDER BY countrylanguage.Language ";
+                            + "ORDER BY Population DESC ";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
@@ -290,6 +291,7 @@ public class App {
     {
         if (cnt != null)
         {
+            System.out.println("_Country Report_\n");
             System.out.println(
                     cnt.code + " "
                             + cnt.name + "\n"
@@ -305,6 +307,7 @@ public class App {
     {
         if(cptc != null)
         {
+            System.out.println("_Capital City Report_\n");
             System.out.println(
                     //cptc.code + " "
                             "Capital City " + cptc.name + "\n"
@@ -319,6 +322,7 @@ public class App {
     {
         if(city != null)
         {
+            System.out.println("_City Report_\n");
             System.out.println(
                     //cptc.code + " "
                     "City " + city.name + "\n"
@@ -333,6 +337,7 @@ public class App {
     {
         if (popList != null)
         {
+            System.out.println("_Population Report_\n");
             StringBuilder printString = new StringBuilder();
             for (Population pop : popList) {
                 printString.append(pop.name).append("\n")
@@ -348,6 +353,7 @@ public class App {
     {
         if (langList != null)
         {
+            System.out.println("_Language Report_\n");
             StringBuilder printString = new StringBuilder();
             for (Language lang : langList) {
                 printString.append(lang.name).append("\n")
