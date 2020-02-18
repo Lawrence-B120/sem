@@ -238,7 +238,7 @@ public class App {
         catch (Exception e)
         {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get country details");
+            System.out.println("Failed to get population details");
             return null;
         }
     }
@@ -249,11 +249,13 @@ public class App {
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String strSelect =
-                    "SELECT countrylanguage.Language AS Name, SUM((country.Population * countrylanguage.Percentage)/100) AS Population "
+                    "SELECT countrylanguage.Language AS Name, "
+                            + "SUM((country.Population * countrylanguage.Percentage)/100) AS Population, "
+                            + "(SUM((country.Population * countrylanguage.Percentage)/100)/(SELECT SUM(Population) FROM country))*100 AS Percentage "
                             + "FROM countrylanguage JOIN country "
                             + "ON countrylanguage.CountryCode=country.Code "
-                            + "GROUP BY `Name` "
-                            + "ORDER BY `Name` ";
+                            + "GROUP BY countrylanguage.Language "
+                            + "ORDER BY countrylanguage.Language ";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
@@ -262,7 +264,7 @@ public class App {
             if (rset.next())
             {
                 do {
-                    System.out.println(rset.getString("Name") + ", " + rset.getInt("Population"));
+                    System.out.println(rset.getString("Name") + ", " + rset.getInt("Population") + ", " + rset.getString("Percentage"));
                     //Language lang = new Language();
                     //lang.name = rset.getString("Name");
                     //lang.population = rset.getInt("Population");
@@ -278,7 +280,7 @@ public class App {
         catch (Exception e)
         {
             System.out.println(e.getMessage());
-            System.out.println("Failed to get city details");
+            System.out.println("Failed to get language details");
             return null;
         }
     }
