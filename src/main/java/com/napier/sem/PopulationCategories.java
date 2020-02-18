@@ -2,11 +2,12 @@ package com.napier.sem;
 
 public class PopulationCategories {
     private String code;
-    private String worldPop;
+    private String worldPop, test1, test2;
 
     public String GetWorldPop()
     {
         return worldPop;
+        //test comment
     }
 
     public String GetCountryCode()
