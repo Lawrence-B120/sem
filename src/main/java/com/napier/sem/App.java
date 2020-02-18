@@ -34,10 +34,12 @@ public class App {
 
         //display example capital city report
         a.displayCapitalCityReport(a.getCapitalCity("GBR"));
-        a.displayCityReport(a.getCity("JPN"));
+
         //Display country population report
         //areaType = AreaType.Continent;
         //a.displayPopulation(a.getPopulation(areaType));
+
+        a.getLanguage();
 
         // Disconnect from database
         a.disconnect();
@@ -241,6 +243,46 @@ public class App {
         }
     }
 
+    public List<Language> getLanguage() {
+        try {
+            // Create an SQL statement
+            Statement stmt = con.createStatement();
+            // Create string for SQL statement
+            String strSelect =
+                    "SELECT countrylanguage.Language AS Name, SUM((country.Population * countrylanguage.Percentage)/100) AS Population "
+                            + "FROM countrylanguage JOIN country "
+                            + "ON countrylanguage.CountryCode=country.Code "
+                            + "GROUP BY `Name` "
+                            + "ORDER BY `Name` ";
+            // Execute SQL statement
+            ResultSet rset = stmt.executeQuery(strSelect);
+            // Return new employee if valid.
+            // Check one is returned
+            List<Language> langList = new LinkedList<Language>();
+            if (rset.next())
+            {
+                do {
+                    System.out.println(rset.getString("Name") + ", " + rset.getInt("Population"));
+                    //Language lang = new Language();
+                    //lang.name = rset.getString("Name");
+                    //lang.population = rset.getInt("Population");
+                    //lang.percentage = rset.getFloat("Percentage");
+                    //langList.add(lang);
+                }
+                while (rset.next());
+                return langList;
+            }
+            else
+                return null;
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            System.out.println("Failed to get city details");
+            return null;
+        }
+    }
+
     //Displays details of a given Country object to terminal
     public void displayCountry(Country cnt)
     {
@@ -270,6 +312,21 @@ public class App {
         }
     }
 
+    //Displays details of a given CapitalCity object to terminal
+    public void displayCityReport(CityReport city)
+    {
+        if(city != null)
+        {
+            System.out.println(
+                    //cptc.code + " "
+                    "City " + city.name + "\n"
+                            + "Country " + city.country + "\n"
+                            + "District " + city.district + "\n"
+                            +  "Capital Population " + city.population + "\n"
+            );
+        }
+    }
+
     public void displayPopulation(List<Population> popList)
     {
         if (popList != null)
@@ -285,18 +342,17 @@ public class App {
         }
     }
 
-    //Displays details of a given CapitalCity object to terminal
-    public void displayCityReport(CityReport city)
+    public void displayLanguage(List<Language> langList)
     {
-        if(city != null)
+        if (langList != null)
         {
-            System.out.println(
-                    //cptc.code + " "
-                    "City " + city.name + "\n"
-                            + "Country " + city.country + "\n"
-                            + "District " + city.district + "\n"
-                            +  "Capital Population " + city.population + "\n"
-            );
+            StringBuilder printString = new StringBuilder();
+            for (Language lang : langList) {
+                printString.append(lang.name).append("\n")
+                        .append("Speaking Population: ").append(lang.population).append("\n")
+                        .append("Percentage of World: ").append(lang.percentage).append("%").append("\n\n");
+            }
+            System.out.println(printString);
         }
     }
 }
