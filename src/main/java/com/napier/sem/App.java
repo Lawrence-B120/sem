@@ -109,13 +109,12 @@ public class App {
             // Return new employee if valid.
             // Check one is returned
             if (rset.next()) {
-                Country cnt = new Country();
-                cnt.code = rset.getString("Code");
-                cnt.name = rset.getString("country.Name");
-                cnt.continent = rset.getString("Continent");
-                cnt.region = rset.getString("Region");
-                cnt.capital = rset.getString("city.Name");
-                cnt.population = rset.getInt("country.Population");
+                Country cnt = new Country(rset.getString("Code"),
+                        rset.getString("country.Name"),
+                        rset.getString("Continent"),
+                        rset.getString("Region"),
+                        rset.getString("city.Name"),
+                        rset.getInt("country.Population"));
                 return cnt;
             } else
                 return null;
@@ -142,12 +141,11 @@ public class App {
             // Return new employee if valid.
             // Check one is returned
             if (rset.next()) {
-                CapitalCity cptc = new CapitalCity();
-                //cptc.id = rset.getString("ID");
-                cptc.name = rset.getString("city.Name");
-                cptc.country = rset.getString("country.Name");
-                cptc.district = rset.getString("District");
-                cptc.population = rset.getInt("city.Population");
+                CapitalCity cptc = new CapitalCity(rset.getString("city.Name"),
+                        rset.getString("country.Name"),
+                        rset.getString("District"),
+                        rset.getInt("city.Population"),
+                        rset.getInt("ID"));
                 return cptc;
             } else
                 return null;
@@ -173,12 +171,10 @@ public class App {
             // Return new employee if valid.
             // Check one is returned
             if (rset.next()) {
-                CityReport city = new CityReport();
-                //cptc.id = rset.getString("ID");
-                city.name = rset.getString("city.Name");
-                city.country = rset.getString("country.Name");
-                city.district = rset.getString("District");
-                city.population = rset.getInt("city.Population");
+                CityReport city = new CityReport(rset.getString("city.Name"),
+                        rset.getString("country.Name"),
+                        rset.getString("District"),
+                        rset.getInt("city.Population"));
                 return city;
             } else
                 return null;
@@ -226,13 +222,12 @@ public class App {
             if (rset.next())
             {
                 do {
-                    Population pop = new Population();
-                    pop.name = rset.getString("Name");
-                    pop.totalPop = rset.getString("TotalPop");
-                    pop.cityPop = rset.getString("CityPop");
-                    pop.nonCityPop = rset.getString("NonCityPop");
-                    pop.cityPercent = rset.getFloat("CityPercent");
-                    pop.nonCityPercent = rset.getFloat("NonCityPercent");
+                    Population pop = new Population(rset.getString("Name"),
+                            rset.getString("TotalPop"),
+                            rset.getString("CityPop"),
+                            rset.getString("NonCityPop"),
+                            rset.getFloat("CityPercent"),
+                            rset.getFloat("NonCityPercent"));
                     popList.add(pop);
                 }
                 while (rset.next());
@@ -271,10 +266,9 @@ public class App {
             if (rset.next())
             {
                 do {
-                    Language lang = new Language();
-                    lang.name = rset.getString("Name");
-                    lang.population = rset.getInt("Population");
-                    lang.percentage = rset.getFloat("Percentage");
+                    Language lang = new Language(rset.getString("Name"),
+                            rset.getInt("Population"),
+                            rset.getFloat("Percentage"));
                     langList.add(lang);
                 }
                 while (rset.next());
@@ -389,13 +383,7 @@ public class App {
         if (cnt != null)
         {
             System.out.println("_Country Report_\n");
-            System.out.println(
-                    cnt.code + " "
-                            + cnt.name + "\n"
-                            + "Continent: " + cnt.continent + "\n"
-                            + "Region: " + cnt.region + "\n"
-                            + "Population: " + cnt.population + "\n"
-                            + "Capital: " + cnt.capital + "\n");
+            System.out.println(cnt.Display());
         }
     }
 
@@ -405,12 +393,7 @@ public class App {
         if(cptc != null)
         {
             System.out.println("_Capital City Report_\n");
-            System.out.println(
-                    //cptc.code + " "
-                            "Capital City " + cptc.name + "\n"
-                            + "Country " + cptc.country + "\n"
-                            +  "Capital Population " + cptc.population + "\n"
-            );
+            System.out.println(cptc.Display());
         }
     }
 
@@ -420,13 +403,7 @@ public class App {
         if(city != null)
         {
             System.out.println("_City Report_\n");
-            System.out.println(
-                    //cptc.code + " "
-                    "City " + city.name + "\n"
-                            + "Country " + city.country + "\n"
-                            + "District " + city.district + "\n"
-                            +  "Capital Population " + city.population + "\n"
-            );
+            System.out.println(city.Display());
         }
     }
 
@@ -437,10 +414,7 @@ public class App {
             System.out.println("_Population Report_\n");
             StringBuilder printString = new StringBuilder();
             for (Population pop : popList) {
-                printString.append(pop.name).append("\n")
-                        .append("Total Population: ").append(pop.totalPop).append("\n")
-                        .append("City Population: ").append(pop.cityPop).append(" (").append(pop.cityPercent).append("%)").append("\n")
-                        .append("Non-City Population: ").append(pop.nonCityPop).append(" (").append(pop.nonCityPercent).append("%)").append("\n\n");
+                printString.append(pop.Display());
             }
             System.out.println(printString);
         }
@@ -453,9 +427,7 @@ public class App {
             System.out.println("_Language Report_\n");
             StringBuilder printString = new StringBuilder();
             for (Language lang : langList) {
-                printString.append(lang.name).append("\n")
-                        .append("Speaking Population: ").append(lang.population).append("\n")
-                        .append("Percentage of World: ").append(lang.percentage).append("%").append("\n\n");
+                printString.append(lang.Display());
             }
             System.out.println(printString);
         }

@@ -4,6 +4,25 @@ package com.napier.sem;
 public class CapitalCity {
 
     //Displayed Capital City details
-    public String name, country, district;
-    public int population, id;
+    private String name, country, district;
+    private int population, id;
+
+    //Constructor
+    public CapitalCity(String name, String country, String district, int population, int id)
+    {
+        this.name = name;
+        this.country = country;
+        this.district = district;
+        this.population = population;
+        this.id = id;
+    }
+
+    public String Display()
+    {
+        String displayString = name + "\n" +
+                "Country: " + country + "\n" +
+                "District: " + district + "\n" +
+                "Population: " + population + "\n\n";
+        return displayString;
+    }
 }
