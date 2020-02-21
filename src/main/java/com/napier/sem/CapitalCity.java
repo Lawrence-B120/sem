@@ -17,7 +17,7 @@ public class CapitalCity {
         this.id = id;
     }
 
-    public String Display()
+    public String Display() //this method is called in the main method to display the variables and their values
     {
         String displayString = name + "\n" +
                 "Country: " + country + "\n" +
