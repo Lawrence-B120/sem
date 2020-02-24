@@ -32,5 +32,6 @@ public class AppTest
     void getCountriesTestAllCorrect()
     {
         app.getCountry("LTU");
+        
     }
 }
