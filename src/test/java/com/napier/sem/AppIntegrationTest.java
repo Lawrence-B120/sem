@@ -20,7 +20,7 @@ public class AppIntegrationTest
     }
 
     @Test
-    void testGetEmployee()
+    void testGetCountry()
     {
         Country cnt = app.getCountry("CYM");
         String expected =  "CYM" + " " + "Cayman Islands" + "\n" +
@@ -28,6 +28,6 @@ public class AppIntegrationTest
             "Region: " + "Caribbean" + "\n" +
             "Capital: " + "George Town" + "\n" +
             "Population: " + "38000" + "\n\n";
-        assertEquals(expected, cnt.Display());
+        assertEquals(expected, cnt.Display(), "Country was created with expected values :)");
     }
 }
