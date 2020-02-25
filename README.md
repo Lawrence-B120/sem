@@ -4,3 +4,4 @@
 - Develop Build Status: [![Build Status](https://travis-ci.org/40442074/sem.svg?branch=develop)](https://travis-ci.org/40442074/sem)
 - License: ![LICENSE](https://img.shields.io/github/license/40442074/sem.svg?style=flat-square)
 - Release: ![Releases](https://img.shields.io/github/release/40442074/sem/all.svg?style=flat-square)
+- Coverage: [![codecov](https://codecov.io/gh/40442074/sem/branch/master/graph/badge.svg)](https://codecov.io/gh/40442074/sem)
