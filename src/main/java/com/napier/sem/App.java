@@ -35,8 +35,14 @@ public class App {
         App a = new App();
 
         // Connect to database
-        a.connect("localhost:33060");
-
+        if (args.length < 1)
+        {
+            a.connect("localhost:33060");
+        }
+        else
+        {
+            a.connect(args[0]);
+        }
         // Display Example Country  The --displayCountry, displayCityReport and displayCapitalCityReport-- method takes in an instance of country and the method of getCountry takes in a string ID
         //which is used in the Select statement to get an ID from the database
         a.displayCountry(a.getCountry("ABW"));
