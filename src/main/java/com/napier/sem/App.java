@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class App {
-    private enum AreaType {
+    public enum AreaType {
         World,
         Continent,
         Region,
@@ -18,7 +18,7 @@ public class App {
         Cityliving
     }
 
-    private enum RequestType {
+    public enum RequestType {
         World,
         Continent,
         Region,
@@ -394,7 +394,7 @@ public class App {
             Statement stmt = con.createStatement();
             // Create string for SQL statement
             String stringSelect = ""; //intialising the variable stringSelect to a default blank
-            if(areaType == AreaType.World && requestType == RequestType.noRequest) //all countries int eh world org by large to small
+            if(areaType == AreaType.World && requestType == RequestType.noRequest) //all countries in the world org by large to small
             {
                 stringSelect =
                         "SELECT Name, Population as pop, Continent FROM country " +
@@ -588,7 +588,8 @@ public class App {
             System.out.println("_Population Report_\n");
             StringBuilder printString = new StringBuilder();
             for (Population pop : popList) {
-                printString.append(pop.Display());
+                if (pop != null)
+                    printString.append(pop.Display());
             }
             System.out.println(printString);
         }
@@ -601,7 +602,8 @@ public class App {
             System.out.println("_Language Report_\n");
             StringBuilder printString = new StringBuilder();
             for (Language lang : langList) {
-                printString.append(lang.Display());
+                if (lang != null)
+                    printString.append(lang.Display());
             }
             System.out.println(printString);
         }
