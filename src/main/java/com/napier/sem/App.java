@@ -103,7 +103,7 @@ public class App {
             System.exit(-1);
         }
 
-        int retries = 10;
+        int retries = 2;
         for (int i = 0; i < retries; ++i)
         {
             System.out.println("Connecting to database...");
@@ -197,8 +197,7 @@ public class App {
     }
 
     //Get cities from the database
-    public CityReport getCity(String ID)
-    {
+    public CityReport getCity(String ID) {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -228,8 +227,7 @@ public class App {
     }
 
     //Get the details of a country from the database
-    public List<Population> getPopulation(AreaType areaType, int limit)
-    {
+    public List<Population> getPopulation(AreaType areaType, int limit) {
         try
         {
             // Create an SQL statement
