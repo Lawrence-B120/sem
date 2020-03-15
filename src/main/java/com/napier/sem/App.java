@@ -197,7 +197,8 @@ public class App {
     }
 
     //Get cities from the database
-    public CityReport getCity(String ID) { //This method does the same as the GetCapitalcity method
+    public CityReport getCity(String ID)
+    {
         try {
             // Create an SQL statement
             Statement stmt = con.createStatement();
@@ -205,8 +206,8 @@ public class App {
             String strSelect =
                     "SELECT city.ID, city.Name, CountryCode, District, city.Population, country.Capital, country.Name "
                             + "FROM city JOIN country "
-                            + "ON country.Capital=city.ID "
-                            + "WHERE Code = '" + ID + "'";
+                            + "ON country.Code=city.CountryCode "
+                            + "WHERE city.ID = '" + ID + "'";
             // Execute SQL statement
             ResultSet rset = stmt.executeQuery(strSelect);
             // Return new employee if valid.
