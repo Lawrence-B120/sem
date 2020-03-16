@@ -43,23 +43,35 @@ public class App {
         {
             a.connect(args[0]);
         }
-        // Display Example Country  The --displayCountry, displayCityReport and displayCapitalCityReport-- method takes in an instance of country and the method of getCountry takes in a string ID
-        //which is used in the Select statement to get an ID from the database
-        a.displayCountry(a.getCountry("ABW"));
 
-        //display example of city report
-        a.displayCityReport(a.getCity("JPN"));
+        //********************************************Countries by population
+        System.out.println("**********Countries by population**********\n");
+        a.displaySortedPop(a.getSortedPop(AreaType.World, RequestType.noRequest, "", 10), AreaType.World, RequestType.noRequest);
+        a.displaySortedPop(a.getSortedPop(AreaType.Continent, RequestType.noRequest, "Asia", 10), AreaType.Continent, RequestType.noRequest);
+        a.displaySortedPop(a.getSortedPop(AreaType.Region, RequestType.noRequest, "South America", 10), AreaType.Region, RequestType.noRequest);
 
-        //display example capital city report
-        a.displayCapitalCityReport(a.getCapitalCity("GBR"));
+        //********************************************Cities by population
+        System.out.println("**********Cities by population**********\n");
+        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.World, "", 10), AreaType.City, RequestType.World);
+        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.Continent, "Asia", 10), AreaType.City, RequestType.Continent);
+        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.Region, "South America", 10), AreaType.City, RequestType.Region);
+        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.Country, "Argentina", 10), AreaType.City, RequestType.Country);
+        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.District, "North Carolina", 10), AreaType.City, RequestType.District);
 
-        //Display language report
-        a.displayLanguage(a.getLanguage());
+        //********************************************Capital Cities by population
+        System.out.println("**********Capital Cities by population**********\n");
+        a.displaySortedPop(a.getSortedPop(AreaType.Capital, RequestType.World, "", 10), AreaType.Capital, RequestType.World);
+        a.displaySortedPop(a.getSortedPop(AreaType.Capital, RequestType.Continent, "Asia", 10), AreaType.Capital, RequestType.Continent);
+        a.displaySortedPop(a.getSortedPop(AreaType.Capital, RequestType.Region, "South America", 10), AreaType.Capital, RequestType.Region);
 
-        //Display Population of world The --displayPopWorld and getPopulations methods, take in an instance of  PopulationCategories class
-        // and then takes in an Area type which decides which if statement to execute for showing either continents or regions etc
-        //The name is the name of the region or continent, both methods take in these variables as the string used in the output will change depending on the values of the variables
-        System.out.println("_Simple Populations_\n");
+        //********************************************Population distribution
+        System.out.println("**********Population distribution**********\n");
+        a.displayPopulation(a.getPopulation(AreaType.Continent, 10));
+        a.displayPopulation(a.getPopulation(AreaType.Region, 10));
+        a.displayPopulation(a.getPopulation(AreaType.Country, 10));
+
+        //********************************************Population
+        System.out.println("**********Population**********\n");
         a.displayPopWorld(a.getPopulations(AreaType.World,""), "");
         a.displayPopWorld(a.getPopulations(AreaType.Continent,"Asia"), "Asia");
         a.displayPopWorld(a.getPopulations(AreaType.Region, "Australia and New Zealand"), "Australia and New Zealand");
@@ -67,25 +79,9 @@ public class App {
         a.displayPopWorld(a.getPopulations(AreaType.District, "Chaco"), "Chaco");
         a.displayPopWorld(a.getPopulations(AreaType.City, "Edinburgh"), "Edinburgh");
 
-        //Display sorted population results
-        //Sorted Pop takes in an Area type and Request type which decides which if statement to run as well as which sql query to try.
-        //The limit variable decides how many rows will be displayed.
-        a.displaySortedPop(a.getSortedPop(AreaType.World, RequestType.noRequest, "", 5), AreaType.World, RequestType.noRequest);
-        a.displaySortedPop(a.getSortedPop(AreaType.Continent, RequestType.noRequest, "Europe", 5), AreaType.Continent, RequestType.noRequest);
-        a.displaySortedPop(a.getSortedPop(AreaType.Region, RequestType.noRequest, "Southern Europe", 5), AreaType.Region, RequestType.noRequest);
-        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.World, "", 5), AreaType.City, RequestType.World);
-        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.Continent, "North America", 5), AreaType.City, RequestType.Continent);
-        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.Region, "Polynesia", 5), AreaType.City, RequestType.Region);
-        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.Country, "France", 5), AreaType.City, RequestType.Country);
-        a.displaySortedPop(a.getSortedPop(AreaType.City, RequestType.District, "Aleppo", 5), AreaType.City, RequestType.District);
-        a.displaySortedPop(a.getSortedPop(AreaType.Capital, RequestType.World, "", 5), AreaType.Capital, RequestType.World);
-        a.displaySortedPop(a.getSortedPop(AreaType.Capital, RequestType.Continent, "Asia", 5), AreaType.Capital, RequestType.Continent);
-        a.displaySortedPop(a.getSortedPop(AreaType.Capital, RequestType.Region, "Central America", 5), AreaType.Capital, RequestType.Region);
-
-        //display Population report of people living and not living in cities
-        a.displayPopulation(a.getPopulation(AreaType.Continent, 5));
-        a.displayPopulation(a.getPopulation(AreaType.Region, 5));
-        a.displayPopulation(a.getPopulation(AreaType.Country, 5));
+        //********************************************Language distribution
+        System.out.println("**********Language distribution**********\n");
+        a.displayLanguage(a.getLanguage());
 
         // Disconnect from database
         a.disconnect();
