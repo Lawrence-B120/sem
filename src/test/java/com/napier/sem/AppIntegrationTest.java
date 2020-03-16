@@ -85,10 +85,17 @@ public class AppIntegrationTest
     }
 
     @Test
-    void getSortedPopTest()
+    void getSortedPopTestCountries()
     {
         List<SortedPopulation> poplist = app.getSortedPop(App.AreaType.World, App.RequestType.noRequest, "", 1);
-        String expected =  "Population of China: 1277558000\n";
-        assertEquals(expected, poplist.get(0).DisplayWorld(), "Sorted Population report from database had unexpected values :(");
+        assertEquals("Population of China: 1277558000\n", poplist.get(0).DisplayWorld(), "Sorted Population report from database had unexpected values :(");
+        assertEquals("Population of the country of China In the continent of Asia: 1277558000\n", poplist.get(0).DisplayContinent(), "Sorted Population report from database had unexpected values :(");
+        assertEquals("In the Region of Asia the population of China is: 1277558000\n", poplist.get(0).DisplayRegion(), "Sorted Population report from database had unexpected values :(");
+    }
+    @Test
+    void getSortedPopTestCities()
+    {
+        List<SortedPopulation> poplist = app.getSortedPop(App.AreaType.City, App.RequestType.World, "", 1);
+        assertEquals("Population of the city of Mumbai (Bombay) is: 10500000\n", poplist.get(0).DisplayCity(), "Sorted Population report from database had unexpected values :(");
     }
 }
