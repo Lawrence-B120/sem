@@ -148,7 +148,7 @@ public class AppTest
     @Test
     void displayLanguageTestAllCorrect() {
         List<Language> langList = new LinkedList<Language>();
-        langList.add(new Language("name", 1000, 5));
+        langList.add(new Language("name", 1000, 10));
         app.displayLanguage(langList);
     }
 
