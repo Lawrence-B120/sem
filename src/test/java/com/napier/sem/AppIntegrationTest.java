@@ -20,6 +20,7 @@ public class AppIntegrationTest
         app.connect("localhost:33060");
     }
 
+    //getCountry Tests
     @Test
     void getCountryTest()
     {
@@ -32,6 +33,7 @@ public class AppIntegrationTest
         assertEquals(expected, cnt.Display(), "Country from database had unexpected values :(");
     }
 
+    //getCapitalCity Tests
     @Test
     void getCapitalCityTest()
     {
@@ -43,6 +45,7 @@ public class AppIntegrationTest
         assertEquals(expected, cptc.Display(), "Capital City from database had unexpected values :(");
     }
 
+    //getCity Tests
     @Test
     void getCityTest()
     {
@@ -54,6 +57,7 @@ public class AppIntegrationTest
         assertEquals(expected, city.Display(), "City from database had unexpected values :(");
     }
 
+    //getPopulation Tests
     @Test
     void getPopulationTest()
     {
@@ -65,6 +69,7 @@ public class AppIntegrationTest
         assertEquals(expected, poplist.get(0).Display(), "Population report from database had unexpected values :(");
     }
 
+    //getLanguage Tests
     @Test
     void getLanguageTest()
     {
@@ -76,6 +81,7 @@ public class AppIntegrationTest
         assertEquals(expected, langlist.get(0).Display(), "Language report from database had unexpected values :(");
     }
 
+    //getPopulations Tests
     @Test
     void getPopulationsTest()
     {
@@ -84,6 +90,7 @@ public class AppIntegrationTest
         assertEquals(expected, popc.GetWorldPop(), "Area Population report from database had unexpected values :(");
     }
 
+    //getSortedPop Tests
     @Test
     void getSortedPopTestCountries()
     {
